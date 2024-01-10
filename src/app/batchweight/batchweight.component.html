@@ -25,7 +25,7 @@
           <td>{{ optimumVolume | number : "1.0-2" }} L</td>
         </tr>
         <tr>
-          <td colspan="2" class="text-center">
+          <td class="text-end">
             <input
               type="range"
               min="0"
@@ -34,6 +34,7 @@
               (input)="onOptimumVolumePercentChange($event)"
             />
           </td>
+          <td>&nbsp;</td>
         </tr>
         <tr>
           <td class="text-end">Fill factor:&nbsp;</td>
