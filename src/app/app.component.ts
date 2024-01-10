@@ -11,4 +11,9 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'myapps2';
+  // constructor() {
+  //   if (window.location.hostname === 'localhost' && window.location.pathname === '/') {
+  //     window.location.href = 'https://www.rizauddin.com';
+  //   }
+  // }
 }

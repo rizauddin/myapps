@@ -5,6 +5,6 @@ import { BatchweightComponent } from './batchweight/batchweight.component'
 export const routes: Routes = [
     { path: 'luluske', component: LuluskeComponent },
     { path: 'batchweight', component: BatchweightComponent },
-    { path: '**', redirectTo: 'luluske', pathMatch: 'full'},
+    { path: '**', redirectTo: '/luluske', pathMatch: 'full'},
 
 ];

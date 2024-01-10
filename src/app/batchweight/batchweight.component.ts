@@ -179,7 +179,7 @@ export class BatchweightComponent implements OnInit {
 
   addRow(): void {
     const newIngredient = {
-      name: '', // default name or prompt user for input
+      name: 'Ingredient Name', // default name or prompt user for input
       part: 0, // default value
       density: 0, // default value
       volume: 0, // default value
