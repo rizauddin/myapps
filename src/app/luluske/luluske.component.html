@@ -1,0 +1,127 @@
+<header>
+  <div class="container-fluid p-5 bg-primary text-white text-center">
+    <h1>luluske</h1>
+    <p>Click on any cell to change the assignment name, weightage, total marks, and score.</p>
+  </div>
+</header>
+
+<div class="container mt-5">
+  Rawscore 
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>        <th>Assignment</th>
+        <th class="editable" (click)="editCell('assignment', 0)">{{ tableData.assignment[0] }}</th>
+        <th class="editable" (click)="editCell('assignment', 1)">{{ tableData.assignment[1] }}</th>
+        <th class="editable" (click)="editCell('assignment', 2)">{{ tableData.assignment[2] }}</th>
+        <th class="editable" (click)="editCell('assignment', 3)">{{ tableData.assignment[3] }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Weightage (%)<br><p *ngIf="totalWeight !== 100" style="color: red;">Error: The total weight must be 100. It is now {{totalWeight}}.</p></td>
+        <td class="editable" (click)="editCell('weightage', 0)">{{ tableData.weightage[0] }}</td>
+        <td class="editable" (click)="editCell('weightage', 1)">{{ tableData.weightage[1] }}</td>
+        <td class="editable" (click)="editCell('weightage', 2)">{{ tableData.weightage[2] }}</td>
+        <td class="editable" (click)="editCell('weightage', 3)">{{ tableData.weightage[3] }}</td>
+      </tr>
+      <tr>
+        <td>Total Marks</td>
+        <td class="editable" (click)="editCell('totalMarks', 0)">{{ tableData.totalMarks[0] }}</td>
+        <td class="editable" (click)="editCell('totalMarks', 1)">{{ tableData.totalMarks[1] }}</td>
+        <td class="editable" (click)="editCell('totalMarks', 2)">{{ tableData.totalMarks[2] }}</td>
+        <td class="editable" (click)="editCell('totalMarks', 3)">{{ tableData.totalMarks[3] }}</td>
+      </tr>
+      <tr>
+        <td>Score</td>
+        <td class="editable" (click)="editCell('score', 0)">{{ tableData.score[0] }}<br><p *ngIf="tableData.score[0] > tableData.totalMarks[0]" style="color: red;text-decoration: none;">Error: The score cannot exceed the total marks.</p></td>
+        <td class="editable" (click)="editCell('score', 1)">{{ tableData.score[1] }}</td>
+        <td class="editable" (click)="editCell('score', 2)">{{ tableData.score[2] }}</td>
+        <td class="editable" (click)="editCell('score', 3)">{{ tableData.score[3] }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="container mt-5">
+    Results
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Carry Marks ({{100-tableData.weightage[3]}}%)</th>
+                <th>Final Exam ({{tableData.weightage[3]}}%)</th>
+                <th>Final Marks</th>
+                <th>Grade</th>
+                <th>Result</th>
+            </tr>
+            
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ scoreData.carryMarks | number:'1.0-2' }}</td>
+                <td>{{ scoreData.finalExam | number:'1.0-2'  }}</td>
+                <td>{{ scoreData.finalMarks | number:'1.0-2' }}</td>
+                <td>{{scoreData.grade}}</td>
+                <td>{{scoreData.result}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
+<!-- 
+<div class="container mt-5">
+    Settings 
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>A+</th>
+                <th>A</th>
+                <th>A-</th>
+                <th>B+</th>
+                <th>B</th>
+                <th>B-</th>
+                <th>C+</th>
+                <th>C</th>
+                <th>C-</th>
+                <th>D+</th>
+                <th>D</th>
+                <th>E</th>
+                <th>F</th>
+            </tr>
+            
+        </thead>
+        <tbody>
+            <tr>
+                <td>90</td>
+                <td>80</td>
+                <td>75</td>
+                <td>70</td>
+                <td>65</td>
+                <td>60</td>
+                <td>55</td>
+                <td>50</td>
+                <td>47</td>
+                <td>44</td>
+                <td>40</td>
+                <td>30</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>-100</td>
+                <td>-89</td>
+                <td>-79</td>
+                <td>-74</td>
+                <td>-69</td>
+                <td>-64</td>
+                <td>-59</td>
+                <td>-54</td>
+                <td>-49</td>
+                <td>-46</td>
+                <td>-43</td>
+                <td>-39</td>
+                <td>-29</td>
+            </tr>
+        </tbody>
+    </table>
+</div> -->

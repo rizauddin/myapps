@@ -1,0 +1,110 @@
+<header>
+  <div class="container-fluid p-5 bg-primary text-white text-center">
+    <h1>Batch Weight Calculator</h1>
+    <p></p>
+  </div>
+</header>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8">
+      <table class="table">
+        <tr>
+          <td class="text-end">Mixer Volume:&nbsp;</td>
+          <td
+            class="editable cursor-pointer underline"
+            (click)="editMixerVolume()"
+          >
+            {{ mixerVolume | number : "1.0-2" }} L
+          </td>
+        </tr>
+        <tr>
+          <td class="text-end">
+            Optimum Mix Volume ({{ optimumVolumePercent }}%):&nbsp;
+          </td>
+          <td>{{ optimumVolume | number : "1.0-2" }} L</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="text-center">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              [value]="optimumVolumePercent"
+              (input)="onOptimumVolumePercentChange($event)"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="text-end">Fill factor:&nbsp;</td>
+          <td>
+            {{ fillFactor | number : "1.0-2" }}
+          </td>
+        </tr>
+        <tr>
+          <td class="text-end">Formulation Density:&nbsp;</td>
+          <td>{{ formulationDensity | number : "1.0-2" }} kg/L</td>
+        </tr>
+        <tr>
+          <td class="text-end">Batch Volume:&nbsp;</td>
+          <td>{{ batchVolume | number : "1.0-2" }} L</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Compounding Ingredients</th>
+        <th>Volume (L)</th>
+        <th>Density (kg/L)</th>
+        <th>Part (phr)</th>
+        <th>Batch Weight (kg)</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ingredient of ingredients; let i = index">
+        <td
+          class="editable cursor-pointer underline"
+          (click)="editCell('name', i)"
+        >
+          {{ ingredient.name }}
+        </td>
+        <td
+          class="editable cursor-pointer underline"
+          (click)="editCell('volume', i)"
+        >
+          {{ ingredient.volume | number : "1.0-2" }}
+        </td>
+        <td
+          class="editable cursor-pointer underline"
+          (click)="editCell('density', i)"
+        >
+          {{ ingredient.density | number : "1.0-2" }}
+        </td>
+        <td>{{ ingredient.part | number : "1.0-2" }}</td>
+        <td>{{ calcBatchWeight(i) | number : "1.0-2" }}</td>
+        <td>
+          <button class="btn" (click)="deleteRow(i)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>Total</td>
+        <td>{{ totalVolume | number : "1.0-2" }}</td>
+        <td>{{ totalDensity | number : "1.0-2" }}</td>
+        <td>{{ totalPart | number : "1.0-2" }}</td>
+        <td>{{ totalBatchWeight | number : "1.0-2" }}</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tfoot>
+  </table>
+  <button class="btn btn-primary" (click)="addRow()">Add Ingredients</button>
+</div>

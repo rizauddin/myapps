@@ -1,0 +1,8 @@
+.table td.editable {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.table th.editable {
+    cursor: pointer;
+    text-decoration: underline;
+}
