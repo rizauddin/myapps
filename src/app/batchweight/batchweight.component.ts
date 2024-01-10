@@ -29,7 +29,8 @@ export class BatchweightComponent implements OnInit {
 
   recalculateAll(): void {
     this.calcOptimumVolume();
-    this.calcParts();
+    //this.calcEachParts();
+    this.calcEachVolumes();
     this.calcTotalPart();
     this.calcTotalVolume();
     this.calcTotalDensity();
@@ -43,71 +44,71 @@ export class BatchweightComponent implements OnInit {
   ingredients: Ingredient[] = [
     {
       "name": "SMR 10",
-      "part": 0,
+      "part": 100,
       "density": 0.94,
-      "volume": 106.4,
+      "volume": 0,
       "batchWeight": 0
     },
     {
       "name": "Zinc oxide",
-      "part": 0,
+      "part": 10,
       "density": 5.55,
       "volume": 1.8,
-      "batchWeight": 0
+      "batchWeight": 2.58
     },
     {
       "name": "Stearic acid",
-      "part": 0,
+      "part": 2,
       "density": 0.92,
       "volume": 2.2,
-      "batchWeight": 0
+      "batchWeight": 0.52
     },
     // {
     //   "name": "N550 Carbon Black",
-    //   "part": 0,
+    //   "part": 50,
     //   "density": 1.8,
     //   "volume": 27.8,
-    //   "batchWeight": 0
+    //   "batchWeight": 12.90
     // },
     // {
     //   "name": "Oil (naphtenic)",
-    //   "part": 0,
+    //   "part": 10,
     //   "density": 0.92,
     //   "volume": 10.9,
-    //   "batchWeight": 0
+    //   "batchWeight": 2.58
     // },
     // {
     //   "name": "Antioxidant TMQ",
-    //   "part": 0,
+    //   "part": 2,
     //   "density": 1.08,
     //   "volume": 1.9,
-    //   "batchWeight": 0
-    // }, {
+    //   "batchWeight": 0.52
+    // },    {
     //   "name": "Antiozonant DPPD",
-    //   "part": 0,
+    //   "part": 2,
     //   "density": 1.22,
     //   "volume": 1.6,
-    //   "batchWeight": 0
+    //   "batchWeight": 0.52
     // },
     // {
     //   "name": "Sulphur",
-    //   "part": 0,
+    //   "part": 0.25,
     //   "density": 2.07,
     //   "volume": 0.1,
-    //   "batchWeight": 0
+    //   "batchWeight": 0.06
     // },
     // {
     //   "name": "TBBS",
-    //   "part": 0,
+    //   "part": 2.1,
     //   "density": 1.29,
     //   "volume": 1.6,
-    //   "batchWeight": 0
-    // }, {
+    //   "batchWeight": 0.54
+    // },    {
     //   "name": "TMTD",
-    //   "part": 0,
+    //   "part": 1,
     //   "density": 1.35,
     //   "volume": 0.7,
-    //   "batchWeight": 0
+    //   "batchWeight": 0.26
     // },
   ];
 
@@ -153,23 +154,23 @@ export class BatchweightComponent implements OnInit {
   }
 
   calcBatchWeight(index: number): number {
-    this.ingredients[index].batchWeight = this.ingredients[index].part / this.fillFactor;
+    this.ingredients[index].batchWeight = this.ingredients[index].part * this.fillFactor;
     return this.ingredients[index].batchWeight;
   }
 
-  calcParts(): void {
+  calcEachVolumes(): void {
     this.ingredients.forEach((ingredient, index) => {
-      this.calcPart(index);
+      this.calcVolume(index);
     });
   }
 
-  calcPart(index: number): number {
-    this.ingredients[index].part = this.ingredients[index].volume * this.ingredients[index].density;
-    return this.ingredients[index].part;
+  calcVolume(index: number): number {
+    this.ingredients[index].volume = this.ingredients[index].part / this.ingredients[index].density;
+    return this.ingredients[index].volume;
   }
 
   calcFillFactor(): void {
-    this.fillFactor = this.totalVolume / this.optimumVolume;
+    this.fillFactor = this.optimumVolume / this.totalVolume;
   }
 
   calcBatchVolume(): void {
@@ -200,9 +201,8 @@ export class BatchweightComponent implements OnInit {
         case 'name':
           this.ingredients[rowIndex].name = newValue;
           break;
-        //case 'part':
+        case 'part':
         case 'density':
-        case 'volume':
           const numericValue = parseFloat(newValue);
           if (!isNaN(numericValue)) {
             this.ingredients[rowIndex][column] = numericValue;

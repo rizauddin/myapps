@@ -1,7 +1,6 @@
 <header>
   <div class="container-fluid p-5 bg-primary text-white text-center">
     <h1>Batch Weight Calculator</h1>
-    <p></p>
   </div>
 </header>
 
@@ -60,9 +59,9 @@
     <thead>
       <tr>
         <th>Compounding Ingredients</th>
-        <th>Volume (L)</th>
-        <th>Density (kg/L)</th>
         <th>Part (phr)</th>
+        <th>Density (kg/L)</th>
+        <th>Volume (L)</th>
         <th>Batch Weight (kg)</th>
         <th>Delete</th>
       </tr>
@@ -77,9 +76,9 @@
         </td>
         <td
           class="editable cursor-pointer underline"
-          (click)="editCell('volume', i)"
+          (click)="editCell('part', i)"
         >
-          {{ ingredient.volume | number : "1.0-2" }}
+          {{ ingredient.part | number : "1.0-2" }}
         </td>
         <td
           class="editable cursor-pointer underline"
@@ -87,7 +86,7 @@
         >
           {{ ingredient.density | number : "1.0-2" }}
         </td>
-        <td>{{ ingredient.part | number : "1.0-2" }}</td>
+        <td>{{ ingredient.volume| number : "1.0-2" }}</td>
         <td>{{ calcBatchWeight(i) | number : "1.0-2" }}</td>
         <td>
           <button class="btn" (click)="deleteRow(i)">
@@ -99,9 +98,9 @@
     <tfoot>
       <tr>
         <td>Total</td>
-        <td>{{ totalVolume | number : "1.0-2" }}</td>
-        <td>{{ totalDensity | number : "1.0-2" }}</td>
         <td>{{ totalPart | number : "1.0-2" }}</td>
+        <td>{{ totalDensity | number : "1.0-2" }}</td>
+        <td>{{ totalVolume | number : "1.0-2" }}</td>
         <td>{{ totalBatchWeight | number : "1.0-2" }}</td>
         <td>&nbsp;</td>
       </tr>
