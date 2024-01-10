@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-luluske',
@@ -12,9 +13,10 @@ import { CommonModule } from '@angular/common';
 })
 export class LuluskeComponent {
 
-  constructor() {}
+  public constructor(private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Lulus ke?');
     this.updateGrade();
   }
 

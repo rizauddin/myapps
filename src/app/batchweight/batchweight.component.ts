@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 interface Ingredient {
   name: string;
@@ -19,7 +20,10 @@ interface Ingredient {
   styleUrl: './batchweight.component.css'
 })
 export class BatchweightComponent implements OnInit {
+  public constructor(private titleService: Title) { }
+
   ngOnInit(): void {
+    this.titleService.setTitle('Batch Weight Calculator');
     this.recalculateAll();
   }
 
@@ -218,7 +222,7 @@ export class BatchweightComponent implements OnInit {
     this.recalculateAll(); // Recalculate other values if needed
   }
 
-  editMixerVolume(): void {
+  editMixerVolume(): void {``
     const newValue = prompt('Enter new Mixer Volume');
     if (newValue !== null) {
       const numericValue = parseFloat(newValue);
