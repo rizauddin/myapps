@@ -177,9 +177,17 @@ export class BatchweightComponent implements OnInit {
     this.batchVolume = this.totalBatchWeight / this.formulationDensity;
   }
 
+  // deleteRow(index: number): void {
+  //   this.ingredients.splice(index, 1);
+  //   this.recalculateAll();
+  // }
+
   deleteRow(index: number): void {
-    this.ingredients.splice(index, 1);
-    this.recalculateAll();
+    const isConfirmed = window.confirm('Are you sure you want to delete this ingredient?');
+    if (isConfirmed) {
+      this.ingredients.splice(index, 1);
+      this.recalculateAll();
+    }
   }
 
   addRow(): void {
