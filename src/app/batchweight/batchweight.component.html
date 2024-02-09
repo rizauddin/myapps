@@ -11,7 +11,7 @@
         <tr>
           <td class="text-end">Mixer Volume:&nbsp;</td>
           <td
-            class="editable cursor-pointer underline"
+            class="editable"
             (click)="editMixerVolume()"
           >
             {{ mixerVolume | number : "1.0-2" }} L
@@ -24,16 +24,19 @@
           <td>{{ optimumVolume | number : "1.0-2" }} L</td>
         </tr>
         <tr>
-          <td class="text-end">
-            <input
-              type="range"
-              min="0"
-              max="100"
-              [value]="optimumVolumePercent"
-              (input)="onOptimumVolumePercentChange($event)"
-            />
+          <td class="text-end" colspan="2">
+            <div class="range-container">
+              <span>0%</span>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                [value]="optimumVolumePercent"
+                (input)="onOptimumVolumePercentChange($event)"
+              />
+              <span>100%</span>
+            </div>
           </td>
-          <td>&nbsp;</td>
         </tr>
         <tr>
           <td class="text-end">Fill factor:&nbsp;</td>
@@ -69,19 +72,19 @@
     <tbody>
       <tr *ngFor="let ingredient of ingredients; let i = index">
         <td
-          class="editable cursor-pointer underline"
+          class="editable"
           (click)="editCell('name', i)"
         >
           {{ ingredient.name }}
         </td>
         <td
-          class="editable cursor-pointer underline"
+          class="editable"
           (click)="editCell('part', i)"
         >
           {{ ingredient.part | number : "1.0-2" }}
         </td>
         <td
-          class="editable cursor-pointer underline"
+          class="editable"
           (click)="editCell('density', i)"
         >
           {{ ingredient.density | number : "1.0-2" }}
