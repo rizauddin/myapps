@@ -11,13 +11,12 @@ interface Ingredient {
 }
 
 @Component({
-  selector: 'app-batchweight',
-  standalone: true,
-  imports: [
-    CommonModule,
-  ],
-  templateUrl: './batchweight.component.html',
-  styleUrl: './batchweight.component.css'
+    selector: 'app-batchweight',
+    imports: [
+        CommonModule,
+    ],
+    templateUrl: './batchweight.component.html',
+    styleUrl: './batchweight.component.css'
 })
 export class BatchweightComponent implements OnInit {
   public constructor(private titleService: Title) { }

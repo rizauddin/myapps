@@ -5,13 +5,12 @@ import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-luluske',
-  standalone: true,
-  imports: [
-    CommonModule, LuluskeResultsComponent, AssessmentWorksheetComponent,
-  ],
-  templateUrl: './luluske.component.html',
-  styleUrls: ['./luluske-shared.css', './luluske.component.css']
+    selector: 'app-luluske',
+    imports: [
+        CommonModule, LuluskeResultsComponent, AssessmentWorksheetComponent,
+    ],
+    templateUrl: './luluske.component.html',
+    styleUrls: ['./luluske-shared.css', './luluske.component.css']
 })
 export class LuluskeComponent {
 

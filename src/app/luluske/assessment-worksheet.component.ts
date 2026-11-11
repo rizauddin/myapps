@@ -5,11 +5,10 @@ import type { LuluskeComponent } from './luluske.component';
 type EditableColumn = 'assignment' | 'weightage' | 'totalMarks' | 'score';
 
 @Component({
-  selector: 'app-assessment-worksheet',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './assessment-worksheet.component.html',
-  styleUrls: ['./luluske-shared.css', './assessment-worksheet.component.css']
+    selector: 'app-assessment-worksheet',
+    imports: [CommonModule],
+    templateUrl: './assessment-worksheet.component.html',
+    styleUrls: ['./luluske-shared.css', './assessment-worksheet.component.css']
 })
 export class AssessmentWorksheetComponent {
   @Input({ required: true }) tableData!: LuluskeComponent['tableData'];

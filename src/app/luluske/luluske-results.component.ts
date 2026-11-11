@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import type { LuluskeComponent } from './luluske.component';
 
 @Component({
-  selector: 'app-luluske-results',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './luluske-results.component.html',
-  styleUrls: ['./luluske-shared.css', './luluske-results.component.css']
+    selector: 'app-luluske-results',
+    imports: [CommonModule],
+    templateUrl: './luluske-results.component.html',
+    styleUrls: ['./luluske-shared.css', './luluske-results.component.css']
 })
 export class LuluskeResultsComponent {
   @Input({ required: true }) scoreData!: LuluskeComponent['scoreData'];
