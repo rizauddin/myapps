@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { Title } from '@angular/platform-browser';
+import { LuluskeComponent } from './luluske/luluske.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -26,5 +28,21 @@ describe('AppComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('footer')?.textContent)
       .toContain(`Copyright 2024-${new Date().getFullYear()}`);
+  });
+
+  it('limits the redesigned footer to Luluske and preserves other route styling', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.componentInstance.onRouteActivate(new LuluskeComponent(TestBed.inject(Title)));
+    fixture.detectChanges();
+    const footer: HTMLElement = fixture.nativeElement.querySelector('footer');
+    expect(footer.classList.contains('luluske-footer')).toBeTrue();
+    expect(footer.classList.contains('bg-light')).toBeFalse();
+    expect(footer.querySelector('p p')).toBeNull();
+    expect(footer.querySelector('a')?.getAttribute('href')).toBe('https://www.rizauddin.com');
+
+    fixture.componentInstance.onRouteActivate({});
+    fixture.detectChanges();
+    expect(footer.classList.contains('luluske-footer')).toBeFalse();
+    expect(footer.classList.contains('bg-light')).toBeTrue();
   });
 });

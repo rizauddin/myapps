@@ -70,14 +70,18 @@ describe('LuluskeComponent', () => {
     expect(component.scoreData.result).toBe('Pass');
   });
 
-  it('renames an assignment through its header cell', () => {
-    spyOn(window, 'prompt').and.returnValue('Weekly Quiz');
-    const header: HTMLElement = fixture.nativeElement.querySelector('th.editable');
+  it('renames an assignment through its labelled editor', () => {
+    const header: HTMLButtonElement = fixture.nativeElement.querySelector('.name-button');
     header.click();
+    fixture.detectChanges();
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('#assessment-value');
+    input.value = 'Weekly Quiz';
+    input.dispatchEvent(new Event('input'));
+    fixture.nativeElement.querySelector('form').dispatchEvent(new Event('submit', { cancelable: true }));
     fixture.detectChanges();
 
     expect(component.tableData.assignment[0]).toBe('Weekly Quiz');
-    expect(header.textContent).toBe('Weekly Quiz');
+    expect(header.textContent?.trim()).toBe('Weekly Quiz');
   });
 
   it('recalculates and renders results after a score edit', () => {
@@ -89,7 +93,7 @@ describe('LuluskeComponent', () => {
     expect(component.scoreData.carryMarks).toBe(30);
     expect(component.scoreData.finalMarks).toBe(60);
     expect(component.scoreData.grade).toBe('B-');
-    const results = fixture.nativeElement.querySelectorAll('table')[1];
+    const results = fixture.nativeElement.querySelector('[data-testid="overall-marks"]');
     expect(results.textContent).toContain('60');
   });
 
@@ -108,7 +112,8 @@ describe('LuluskeComponent', () => {
     fixture.detectChanges();
 
     expect(component.totalWeight).toBe(110);
-    expect(component.scoreData.finalMarks).toBe(76);
+    expect(component.scoreData.finalMarks).toBeNaN();
+    expect(component.scoreData.result).toBe('Check inputs');
     expect(fixture.nativeElement.textContent).toContain('It is now 110.');
 
     component.editCell('weightage', 0);
@@ -223,17 +228,17 @@ describe('LuluskeComponent', () => {
       expect(component.failureReasons[1]).toContain('The final exam score');
     });
 
-    it('does not pass when a required component has zero weight', () => {
+    it('withholds results when a required component has zero weight', () => {
       component.tableData.weightage = [0, 0, 0, 100];
       component.tableData.score = [100, 100, 100, 100];
       component.updateGrade();
-      expect(component.scoreData.carryPercent).toBe(0);
-      expect(component.scoreData.result).toBe('Fail');
+      expect(component.scoreData.carryPercent).toBeNaN();
+      expect(component.scoreData.result).toBe('Check inputs');
 
       component.tableData.weightage = [40, 40, 20, 0];
       component.updateGrade();
-      expect(component.scoreData.finalExamPercent).toBe(0);
-      expect(component.scoreData.result).toBe('Fail');
+      expect(component.scoreData.finalExamPercent).toBeNaN();
+      expect(component.scoreData.result).toBe('Check inputs');
     });
   });
 
@@ -299,7 +304,7 @@ describe('LuluskeComponent', () => {
     it('updates the displayed suggestions after editing carry scores', () => {
       setCarry(60);
       fixture.detectChanges();
-      const section: HTMLElement = fixture.nativeElement.querySelector('section');
+      const section: HTMLElement = fixture.nativeElement.querySelector('#exam-targets');
       expect(section.textContent).toContain('Score at least 40 out of 100');
       spyOn(window, 'prompt').and.returnValue('100');
       component.editCell('score', 0);

@@ -1,0 +1,36 @@
+.luluske-footer {
+  background: #fff;
+  border-top: 1px solid #e2e8f0;
+  color: #475569;
+  font: 13px/1.7 Inter,system-ui,sans-serif;
+}
+
+.luluske-footer .container-fluid {
+  max-width: 1120px;
+  padding: 16px;
+}
+
+.luluske-footer .disclaimer {
+  margin-top: 24px;
+}
+
+.luluske-footer a {
+  color: #00288e;
+}
+
+.luluske-footer a:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+
+@media(min-width:768px) {
+  .luluske-footer .container-fluid {
+    padding: 24px;
+  }
+}
+
+@media(min-width:1024px) {
+  .luluske-footer .container-fluid {
+    padding: 32px;
+  }
+}
