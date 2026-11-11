@@ -17,7 +17,7 @@
     <div>
       <div class="section-heading"><h2 id="requirements-heading">Course pass requirements</h2><span class="chip">3 required rules</span></div>
       <p>Carry score <strong>≥{{minimumPercent.carry}}%</strong> of maximum carry marks, final exam <strong>≥{{minimumPercent.finalExam}}%</strong> of maximum exam marks, and overall marks <strong>≥{{minimumPercent.overall}}</strong>.
-        <strong>All three conditions must be met.</strong></p>
+      <strong>All three conditions must be met.</strong></p>
     </div>
     <span class="edit-hint"><i class="bi bi-pencil-square" aria-hidden="true"></i> Select a value to edit</span>
   </section>
@@ -34,25 +34,37 @@
     <div class="analysis-column">
       <section class="panel" aria-labelledby="components-heading">
         <div class="section-heading"><h2 id="components-heading">Component breakdown</h2><span class="eyebrow">Normalised performance</span></div>
-        <p *ngIf="validationErrors.length" class="small">Correct the assessment inputs to see component contributions.</p>
-        <ng-container *ngIf="!validationErrors.length">
-        <article class="component" *ngFor="let isExam of [false, true]">
-          <div class="section-heading"><h3><i class="bi" [class.bi-journal-text]="!isExam" [class.bi-pencil-square]="isExam" aria-hidden="true"></i> {{isExam ? 'Final examination' : 'Carry marks (coursework)'}}</h3><span class="condition" [class.not-met]="!((isExam ? scoreData.finalExamPercent : scoreData.carryPercent) >= (isExam ? minimumPercent.finalExam : minimumPercent.carry))">{{(isExam ? scoreData.finalExamPercent : scoreData.carryPercent) >= (isExam ? minimumPercent.finalExam : minimumPercent.carry) ? 'Passing' : 'Not met'}}</span></div>
-          <dl><div><dt>Course contribution</dt><dd>{{(isExam ? scoreData.finalExam : scoreData.carryMarks) | number:'1.0-2'}} / {{isExam ? tableData.weightage[3] : carryWeight}} <small>pts</small></dd></div><div><dt>Component percentage</dt><dd class="blue">{{(isExam ? scoreData.finalExamPercent : scoreData.carryPercent) | number:'1.0-2'}}%</dd></div></dl>
-          <div class="bar" aria-hidden="true"><span [style.width.%]="barWidth(isExam ? scoreData.finalExamPercent : scoreData.carryPercent)"></span><b [style.left.%]="isExam ? minimumPercent.finalExam : minimumPercent.carry"></b></div>
-          <p class="small">Minimum: {{isExam ? minimumPercent.finalExam : minimumPercent.carry}}% of this component’s marks.</p>
-        </article>
-        </ng-container>
+        @if (validationErrors.length) {
+          <p class="small">Correct the assessment inputs to see component contributions.</p>
+        }
+        @if (!validationErrors.length) {
+          @for (isExam of [false, true]; track isExam) {
+            <article class="component">
+              <div class="section-heading"><h3><i class="bi" [class.bi-journal-text]="!isExam" [class.bi-pencil-square]="isExam" aria-hidden="true"></i> {{isExam ? 'Final examination' : 'Carry marks (coursework)'}}</h3><span class="condition" [class.not-met]="!((isExam ? scoreData.finalExamPercent : scoreData.carryPercent) >= (isExam ? minimumPercent.finalExam : minimumPercent.carry))">{{(isExam ? scoreData.finalExamPercent : scoreData.carryPercent) >= (isExam ? minimumPercent.finalExam : minimumPercent.carry) ? 'Passing' : 'Not met'}}</span></div>
+              <dl><div><dt>Course contribution</dt><dd>{{(isExam ? scoreData.finalExam : scoreData.carryMarks) | number:'1.0-2'}} / {{isExam ? tableData.weightage[3] : carryWeight}} <small>pts</small></dd></div><div><dt>Component percentage</dt><dd class="blue">{{(isExam ? scoreData.finalExamPercent : scoreData.carryPercent) | number:'1.0-2'}}%</dd></div></dl>
+              <div class="bar" aria-hidden="true"><span [style.width.%]="barWidth(isExam ? scoreData.finalExamPercent : scoreData.carryPercent)"></span><b [style.left.%]="isExam ? minimumPercent.finalExam : minimumPercent.carry"></b></div>
+              <p class="small">Minimum: {{isExam ? minimumPercent.finalExam : minimumPercent.carry}}% of this component’s marks.</p>
+            </article>
+          }
+        }
       </section>
       <section id="exam-targets" class="panel" aria-labelledby="exam-targets-heading">
         <h2 id="exam-targets-heading"><i class="bi bi-bullseye" aria-hidden="true"></i> Final exam score suggestions</h2>
-        <p class="small" *ngIf="!validationErrors.length">Based on your carry marks ({{scoreData.carryMarks | number:'1.0-2'}}/{{carryWeight}}). Targets are rounded up to whole exam marks and require passing carry and at least 20% in the exam.</p>
-        <article class="target-card" *ngFor="let suggestion of examSuggestions; let i = index">
-          <div class="section-heading"><h3>{{suggestion.target}}</h3><span class="chip">{{i === 0 ? '50' : '80'}} overall target</span></div>
-          <p *ngIf="suggestion.score !== null" class="target-number"><strong>{{suggestion.score}}</strong> / {{tableData.totalMarks[3]}} <small>marks</small></p>
-          <p>{{suggestion.message}}</p>
-          <p *ngIf="suggestion.score !== null" class="small">Minimum whole-mark exam score for this target, not additional marks beyond your entered score.</p>
-        </article>
+        @if (!validationErrors.length) {
+          <p class="small">Based on your carry marks ({{scoreData.carryMarks | number:'1.0-2'}}/{{carryWeight}}). Targets are rounded up to whole exam marks and require passing carry and at least 20% in the exam.</p>
+        }
+        @for (suggestion of examSuggestions; track suggestion; let i = $index) {
+          <article class="target-card">
+            <div class="section-heading"><h3>{{suggestion.target}}</h3><span class="chip">{{i === 0 ? '50' : '80'}} overall target</span></div>
+            @if (suggestion.score !== null) {
+              <p class="target-number"><strong>{{suggestion.score}}</strong> / {{tableData.totalMarks[3]}} <small>marks</small></p>
+            }
+            <p>{{suggestion.message}}</p>
+            @if (suggestion.score !== null) {
+              <p class="small">Minimum whole-mark exam score for this target, not additional marks beyond your entered score.</p>
+            }
+          </article>
+        }
       </section>
     </div>
   </div>
@@ -60,7 +72,11 @@
   <section id="grading-scale" tabindex="-1" class="panel grading-reference" aria-labelledby="scale-heading">
     <div class="section-heading"><h2 id="scale-heading"><i class="bi bi-list-ol" aria-hidden="true"></i> Grading scale &amp; reference boundaries</h2><span class="chip">Current calculation rules</span></div>
     <p>Letter grade uses the unrounded overall mark. Course pass/fail also depends on the component minimums. The A recommendation targets 80 overall; the implemented A grade begins above 79.</p>
-    <ul class="grade-grid"><li *ngFor="let band of gradeScale" [class.current-grade]="scoreData.grade === band.grade"><strong>{{band.grade}}</strong><span>{{band.interval}}</span><small *ngIf="scoreData.grade === band.grade">Current grade</small></li></ul>
-    <p class="small">Intervals include the upper value. Invalid inputs must be corrected before a grade or course result can be calculated.</p>
-  </section>
+    <ul class="grade-grid">@for (band of gradeScale; track band) {
+      <li [class.current-grade]="scoreData.grade === band.grade"><strong>{{band.grade}}</strong><span>{{band.interval}}</span>@if (scoreData.grade === band.grade) {
+      <small>Current grade</small>
+    }</li>
+  }</ul>
+  <p class="small">Intervals include the upper value. Invalid inputs must be corrected before a grade or course result can be calculated.</p>
+</section>
 </main>

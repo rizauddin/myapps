@@ -13,7 +13,7 @@
           <td
             class="editable"
             (click)="editMixerVolume()"
-          >
+            >
             {{ mixerVolume | number : "1.0-2" }} L
           </td>
         </tr>
@@ -33,7 +33,7 @@
                 max="100"
                 [value]="optimumVolumePercent"
                 (input)="onOptimumVolumePercentChange($event)"
-              />
+                />
               <span>100%</span>
             </div>
           </td>
@@ -70,33 +70,35 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let ingredient of ingredients; let i = index">
-        <td
-          class="editable"
-          (click)="editCell('name', i)"
-        >
-          {{ ingredient.name }}
-        </td>
-        <td
-          class="editable"
-          (click)="editCell('part', i)"
-        >
-          {{ ingredient.part | number : "1.0-2" }}
-        </td>
-        <td
-          class="editable"
-          (click)="editCell('density', i)"
-        >
-          {{ ingredient.density | number : "1.0-2" }}
-        </td>
-        <td>{{ ingredient.volume| number : "1.0-2" }}</td>
-        <td>{{ calcBatchWeight(i) | number : "1.0-2" }}</td>
-        <td>
-          <button class="btn" (click)="deleteRow(i)">
-            <i class="bi bi-trash"></i>
-          </button>
-        </td>
-      </tr>
+      @for (ingredient of ingredients; track ingredient; let i = $index) {
+        <tr>
+          <td
+            class="editable"
+            (click)="editCell('name', i)"
+            >
+            {{ ingredient.name }}
+          </td>
+          <td
+            class="editable"
+            (click)="editCell('part', i)"
+            >
+            {{ ingredient.part | number : "1.0-2" }}
+          </td>
+          <td
+            class="editable"
+            (click)="editCell('density', i)"
+            >
+            {{ ingredient.density | number : "1.0-2" }}
+          </td>
+          <td>{{ ingredient.volume| number : "1.0-2" }}</td>
+          <td>{{ calcBatchWeight(i) | number : "1.0-2" }}</td>
+          <td>
+            <button class="btn" (click)="deleteRow(i)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      }
     </tbody>
     <tfoot>
       <tr>
