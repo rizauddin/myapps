@@ -1,0 +1,38 @@
+  <section class="panel result-summary" aria-labelledby="results-heading">
+    <ng-container *ngIf="!validationErrors.length; else invalidInputs">
+    <div class="headline-metrics">
+      <div class="overall">
+        <h2 id="results-heading" class="eyebrow">Calculated result</h2>
+        <strong class="hero-number" data-testid="overall-marks">{{scoreData.finalMarks | number:'1.0-2'}}</strong>
+        <p>Weighted overall marks</p>
+        <small>Evaluated before rounding</small>
+      </div>
+      <div class="metric-box">
+        <span class="grade-medallion" data-testid="letter-grade">{{scoreData.grade}}</span>
+        <div><span class="eyebrow">Letter grade</span><p>Based on overall marks</p><a href="luluske#grading-scale">View grade boundaries</a></div>
+      </div>
+      <div class="metric-box standing" [class.not-met]="scoreData.result === 'Fail'">
+        <i class="bi" [class.bi-check-circle]="scoreData.result === 'Pass'" [class.bi-x-circle]="scoreData.result === 'Fail'" aria-hidden="true"></i>
+        <div><span class="eyebrow">Course result</span><strong data-testid="course-result">{{scoreData.result}}</strong><small>Independent of letter grade</small></div>
+      </div>
+    </div>
+    <div class="conditions">
+      <h3 class="eyebrow">Pass conditions</h3>
+      <div><span>Carry marks ≥{{minimumPercent.carry}}%</span><span class="condition" [class.not-met]="!(scoreData.carryPercent >= minimumPercent.carry)">{{scoreData.carryPercent | number:'1.0-2'}}% · {{scoreData.carryPercent >= minimumPercent.carry ? 'Met' : 'Not met'}}</span></div>
+      <div><span>Final exam ≥{{minimumPercent.finalExam}}%</span><span class="condition" [class.not-met]="!(scoreData.finalExamPercent >= minimumPercent.finalExam)">{{scoreData.finalExamPercent | number:'1.0-2'}}% · {{scoreData.finalExamPercent >= minimumPercent.finalExam ? 'Met' : 'Not met'}}</span></div>
+      <div><span>Overall marks ≥{{minimumPercent.overall}}</span><span class="condition" [class.not-met]="!(scoreData.finalMarks >= minimumPercent.overall)">{{scoreData.finalMarks | number:'1.0-2'}} · {{scoreData.finalMarks >= minimumPercent.overall ? 'Met' : 'Not met'}}</span></div>
+    </div>
+    <div *ngIf="failureReasons.length" class="notice error failure-reasons" role="status">
+      <h3>Reasons for failing</h3>
+      <ul><li *ngFor="let reason of failureReasons">{{reason}}</li></ul>
+      <p>Reaching 50 overall does not compensate for a failed component.</p>
+    </div>
+    </ng-container>
+    <ng-template #invalidInputs>
+      <div class="invalid-inputs">
+      <h2 id="results-heading">Check inputs before calculating</h2>
+      <p>Marks, grade, pass/fail and exam targets are unavailable until the following issues are corrected.</p>
+      <div class="notice error" role="status"><ul><li *ngFor="let error of validationErrors">{{error}}</li></ul></div>
+      </div>
+    </ng-template>
+  </section>

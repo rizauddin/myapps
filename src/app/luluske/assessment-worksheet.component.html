@@ -1,0 +1,36 @@
+      <section id="assessments" tabindex="-1" class="panel" aria-labelledby="assessments-heading">
+        <div class="section-heading"><div><h2 id="assessments-heading">Assessment breakdown &amp; raw scores</h2><p>Four assessments. One course result.</p></div><span class="chip worksheet-chip">Interactive worksheet</span></div>
+        <p id="editing-help" class="small">Select a name, weight, total or score to edit. Apply updates your result; Cancel keeps your current values. Scores must be between 0 and their total marks; total marks must be positive.</p>
+        <table class="assessment-table" role="table">
+          <caption class="sr-only">Assessment scores and weighted contributions. The first three assessments form carry marks; the fourth is the final examination.</caption>
+          <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Assessment role</th><th scope="col" role="columnheader">Weight</th><th scope="col" role="columnheader">Total marks</th><th scope="col" role="columnheader">Score</th><th scope="col" role="columnheader">Contribution</th></tr></thead>
+          <tbody *ngFor="let i of assessmentIndices" role="rowgroup">
+            <tr class="assessment-row" [class.exam-row]="i === 3" [class.selected]="activeEdit?.row === i" role="row">
+              <th scope="row" role="rowheader">
+                <span class="role-chip" [class.final-role]="i === 3">{{assessmentRole(i)}}</span>
+                <button #nameButton type="button" class="cell-button name-button" [attr.aria-label]="'Edit ' + assessmentRole(i) + ' assignment name: ' + (tableData.assignment[i] || 'Unnamed assessment')" [attr.aria-expanded]="activeEdit?.row === i && activeEdit?.column === 'assignment'" [attr.aria-controls]="activeEdit?.row === i ? 'field-editor' : null" (click)="beginEdit('assignment', i, 'Assignment name', nameButton)">
+                  {{tableData.assignment[i] || 'Unnamed assessment'}} <i class="bi bi-pencil" aria-hidden="true"></i>
+                </button>
+              </th>
+              <td *ngFor="let field of fields" [attr.data-label]="field.label" role="cell">
+                <button #fieldButton type="button" class="cell-button" [class.score-button]="field.column === 'score'" [attr.aria-label]="'Edit ' + assessmentRole(i) + ' ' + field.label + ': ' + tableData[field.column][i]" [attr.aria-describedby]="field.column === 'score' && tableData.score[i] > tableData.totalMarks[i] ? 'score-warning-' + i : null" [attr.aria-expanded]="activeEdit?.row === i && activeEdit?.column === field.column" [attr.aria-controls]="activeEdit?.row === i ? 'field-editor' : null" (click)="beginEdit(field.column, i, field.label, fieldButton)">
+                  {{tableData[field.column][i]}}{{field.column === 'weightage' ? '%' : ''}}
+                </button>
+              </td>
+              <td data-label="Contribution" class="contribution" role="cell"><ng-container *ngIf="calculationValid; else pendingContribution">{{tableData.score[i] / tableData.totalMarks[i] * tableData.weightage[i] | number:'1.0-2'}} <small>pts</small></ng-container><ng-template #pendingContribution>—</ng-template></td>
+            </tr>
+            <tr *ngIf="activeEdit?.row === i" class="editor-row" role="row"><td colspan="5" role="cell">
+              <form id="field-editor" class="field-editor" (submit)="$event.preventDefault(); applyEdit()" (keydown.escape)="$event.preventDefault(); cancelEdit()" novalidate>
+                <h3><i class="bi bi-pencil-square" aria-hidden="true"></i> Quick edit · {{assessmentRole(i)}}</h3>
+                <label for="assessment-value">{{activeEdit?.label}} · {{assessmentRole(i)}} <span class="small">— {{tableData.assignment[i] || 'Unnamed assessment'}}</span></label>
+                <input #editInput id="assessment-value" type="text" autocomplete="off" [value]="draftValue" (input)="draftValue = editInput.value" [attr.aria-invalid]="editError ? 'true' : null" [attr.aria-describedby]="editError ? 'editing-help edit-error' : 'editing-help'">
+                <p id="edit-error" class="error-text" role="alert">{{editError}}</p>
+                <div class="editor-actions"><button type="button" class="secondary-button" (click)="cancelEdit()">Cancel</button><button type="submit" class="primary-button">Apply &amp; recompute</button></div>
+              </form>
+            </td></tr>
+            <tr *ngIf="tableData.score[i] > tableData.totalMarks[i]" class="editor-row" role="row"><td colspan="5" role="cell"><p [id]="'score-warning-' + i" class="notice error">Error: The score cannot exceed the total marks.</p></td></tr>
+          </tbody>
+        </table>
+        <div class="weight-total"><strong>Total weight: {{totalWeight}}%</strong><span class="condition" [class.not-met]="!weightTotalValid">{{weightTotalValid ? 'Balanced' : 'Check weights'}}</span></div>
+        <p *ngIf="!weightTotalValid" class="notice error" id="weight-warning">Error: The total weight must be 100. It is now {{totalWeight}}.</p>
+      </section>

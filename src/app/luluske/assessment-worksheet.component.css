@@ -1,0 +1,201 @@
+.assessment-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.assessment-table thead {
+  background: var(--tint);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.assessment-table th,.assessment-table td {
+  padding: 10px 4px;
+  text-align: center;
+}
+
+.assessment-table th:first-child {
+  text-align: left;
+}
+
+.role-chip {
+  font-size: 10px;
+  display: inline-block;
+}
+
+.final-role {
+  background: var(--blue);
+  color: white;
+}
+
+.exam-row {
+  background: #fafaff;
+}
+
+.selected {
+  background: #eff6ff;
+}
+
+.cell-button {
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+
+.cell-button:hover {
+  background: #eaedff;
+}
+
+.name-button {
+  text-align: left;
+  font-weight: 600;
+  display: block;
+}
+
+.name-button i {
+  font-size: 11px;
+  color: var(--blue);
+}
+
+.score-button {
+  background: var(--tint);
+  color: var(--blue);
+  font-weight: 650;
+}
+
+.contribution {
+  font-weight: 600;
+}
+
+.weight-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  margin-top: 20px;
+}
+
+.field-editor {
+  background: var(--tint);
+  padding: 16px;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.field-editor label {
+  display: block;
+  margin: 10px 0 6px;
+}
+
+.field-editor input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #757684;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.primary-button,.secondary-button {
+  border: 1px solid var(--blue);
+  border-radius: 6px;
+  min-height: 44px;
+  padding: 8px 12px;
+  background: var(--blue);
+  color: white;
+}
+
+.secondary-button {
+  color: var(--blue);
+  background: white;
+}
+
+@media (max-width:767px) {
+  .assessment-table,.assessment-table tbody {
+    display: block;
+  }
+  .assessment-table thead {
+    display: none;
+  }
+  .assessment-table tbody {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin: 12px 0;
+  }
+  .assessment-row {
+    display: grid;
+    grid-template-columns: repeat(3,minmax(0,1fr));
+  }
+  .assessment-row th {
+    grid-column: 1/-1;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .assessment-row td {
+    min-width: 0;
+  }
+  .assessment-row td:before {
+    content: attr(data-label);
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .assessment-row .contribution {
+    grid-column: 1/-1;
+    text-align: right;
+    border-top: 1px solid #e2e8f0;
+  }
+  .assessment-row .contribution:before {
+    display: inline;
+    margin-right: 12px;
+  }
+  .editor-row,.editor-row td {
+    display: block;
+    width: 100%;
+  }
+  .cell-button {
+    padding: 8px 4px;
+  }
+  .role-chip {
+    max-width: 100%;
+  }
+}
+
+@media (min-width:1024px) {
+  .worksheet-chip {
+    display: none;
+  }
+}
+
+@media (max-width:767px) {
+  .worksheet-chip {
+    display: none;
+  }
+}
+
+.field-editor input {
+  font-size: 16px;
+}
+
+.name-button {
+  display: inline-block;
+}
