@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { RouterOutlet } from '@angular/router';
-import { LuluskeComponent } from './luluske/luluske.component';
 
 @Component({
     selector: 'app-root',
@@ -13,8 +12,8 @@ export class AppComponent {
   title = 'myapps2';
   isLuluske = false;
 
-  onRouteActivate(component: unknown): void {
-    this.isLuluske = component instanceof LuluskeComponent;
+  onRouteActivate(data: Record<string, unknown>): void {
+    this.isLuluske = data['layout'] === 'luluske';
   }
   readonly currentYear = new Date().getFullYear();
   // constructor() {

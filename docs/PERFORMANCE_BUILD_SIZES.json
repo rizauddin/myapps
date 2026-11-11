@@ -1,0 +1,76 @@
+[
+  {
+    "stage": "0-baseline",
+    "initialBytes": 701821,
+    "estimatedTransferKB": 137.43,
+    "initialChunks": {
+      "main-ODGYRRLO.js": 271317,
+      "polyfills-5CFQRCPP.js": 34585,
+      "scripts-WZDA3GJV.js": 80616,
+      "styles-NZ7DRVUZ.css": 315303
+    },
+    "lazyChunks": {},
+    "fontAssets": {
+      "media/bootstrap-icons-X6UQXWUS.woff2": 130396,
+      "media/bootstrap-icons-OCU552PF.woff": 176032
+    }
+  },
+  {
+    "stage": "1-lazy",
+    "initialBytes": 655188,
+    "estimatedTransferKB": 129.07,
+    "initialChunks": {
+      "chunk-3BK3AP2O.js": 152182,
+      "main-RI5OYM7Z.js": 72502,
+      "polyfills-5CFQRCPP.js": 34585,
+      "scripts-WZDA3GJV.js": 80616,
+      "styles-NZ7DRVUZ.css": 315303
+    },
+    "lazyChunks": {
+      "chunk-AYHHS4N6.js": 41712,
+      "chunk-NL57ROVB.js": 6719
+    },
+    "fontAssets": {
+      "media/bootstrap-icons-X6UQXWUS.woff2": 130396,
+      "media/bootstrap-icons-OCU552PF.woff": 176032
+    }
+  },
+  {
+    "stage": "2-no-bootstrap-js",
+    "initialBytes": 574572,
+    "estimatedTransferKB": 107.45,
+    "initialChunks": {
+      "chunk-3BK3AP2O.js": 152182,
+      "main-RI5OYM7Z.js": 72502,
+      "polyfills-5CFQRCPP.js": 34585,
+      "styles-NZ7DRVUZ.css": 315303
+    },
+    "lazyChunks": {
+      "chunk-AYHHS4N6.js": 41712,
+      "chunk-NL57ROVB.js": 6719
+    },
+    "fontAssets": {
+      "media/bootstrap-icons-X6UQXWUS.woff2": 130396,
+      "media/bootstrap-icons-OCU552PF.woff": 176032
+    }
+  },
+  {
+    "stage": "3-icons",
+    "initialBytes": 491839,
+    "estimatedTransferKB": 97.35,
+    "initialChunks": {
+      "chunk-3BK3AP2O.js": 152182,
+      "main-RI5OYM7Z.js": 72502,
+      "polyfills-5CFQRCPP.js": 34585,
+      "styles-XAZZUZUJ.css": 232570
+    },
+    "lazyChunks": {
+      "chunk-AYHHS4N6.js": 41712,
+      "chunk-NL57ROVB.js": 6719
+    },
+    "fontAssets": {
+      "media/bootstrap-icons-X6UQXWUS.woff2": 130396,
+      "media/bootstrap-icons-OCU552PF.woff": 176032
+    }
+  }
+]

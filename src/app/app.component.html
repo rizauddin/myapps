@@ -1,4 +1,4 @@
-<router-outlet (activate)="onRouteActivate($event)"></router-outlet>
+<router-outlet #outlet="outlet" (activate)="onRouteActivate(outlet.activatedRouteData)"></router-outlet>
 
 <footer class="footer mt-auto py-3" [class.bg-light]="!isLuluske" [class.luluske-footer]="isLuluske">
   <div class="container-fluid text-black" [class.p-5]="!isLuluske" [class.bg-light]="!isLuluske" [class.text-center]="!isLuluske">

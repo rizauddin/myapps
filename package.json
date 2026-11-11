@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "icons:update": "node scripts/generate-bootstrap-icons.cjs",
+    "icons:check": "node scripts/generate-bootstrap-icons.cjs --check",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",

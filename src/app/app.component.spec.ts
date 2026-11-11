@@ -1,7 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { Title } from '@angular/platform-browser';
-import { LuluskeComponent } from './luluske/luluske.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -32,7 +30,7 @@ describe('AppComponent', () => {
 
   it('limits the redesigned footer to Luluske and preserves other route styling', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    fixture.componentInstance.onRouteActivate(new LuluskeComponent(TestBed.inject(Title)));
+    fixture.componentInstance.onRouteActivate({ layout: 'luluske' });
     fixture.detectChanges();
     const footer: HTMLElement = fixture.nativeElement.querySelector('footer');
     expect(footer.classList.contains('luluske-footer')).toBeTrue();

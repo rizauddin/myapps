@@ -1,10 +1,14 @@
 import { Routes } from '@angular/router';
-import { LuluskeComponent } from './luluske/luluske.component';
-import { BatchweightComponent } from './batchweight/batchweight.component'
 
 export const routes: Routes = [
-    { path: 'luluske', component: LuluskeComponent },
-    { path: 'batchweight', component: BatchweightComponent },
-    { path: '**', redirectTo: '/luluske', pathMatch: 'full'},
-
+    {
+        path: 'luluske',
+        loadComponent: () => import('./luluske/luluske.component').then(m => m.LuluskeComponent),
+        data: { layout: 'luluske' },
+    },
+    {
+        path: 'batchweight',
+        loadComponent: () => import('./batchweight/batchweight.component').then(m => m.BatchweightComponent),
+    },
+    { path: '**', redirectTo: '/luluske', pathMatch: 'full' },
 ];
