@@ -1,12 +1,21 @@
 <header>
   <div class="container-fluid p-5 bg-primary text-white text-center">
-    <h1>Lulus ke?</h1>
+    <h1>luluske?</h1>
     <p>Click on any cell to change the assignment name, weightage, total marks, and score.</p>
   </div>
 </header>
 
 <div class="container mt-5">
-  Rawscore 
+  <div class="alert alert-info">
+    <strong>Course pass requirements</strong>
+    <ul class="mb-0">
+      <li>Carry marks must reach at least {{minimumPercent.carry}}% of the maximum carry marks.</li>
+      <li>The final exam score must reach at least {{minimumPercent.finalExam}}% of the maximum final exam marks.</li>
+      <li>The overall score must reach at least {{minimumPercent.overall}}%.</li>
+    </ul>
+    <p class="mb-0 mt-2">You fail the course if any requirement is not met, even when your overall score is {{minimumPercent.overall}}% or higher. Each component percentage is calculated against its own maximum marks.</p>
+  </div>
+  Raw scores
   <table class="table table-bordered table-striped table-hover">
     <thead>
       <tr>        <th>Assignment</th>
@@ -47,7 +56,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Carry Marks ({{100-tableData.weightage[3]}}%)</th>
+                <th>Carry Marks ({{carryWeight}}%)</th>
                 <th>Final Exam ({{tableData.weightage[3]}}%)</th>
                 <th>Final Marks</th>
                 <th>Grade</th>
@@ -65,9 +74,25 @@
             </tr>
         </tbody>
     </table>
-
-
-
+    <p>Carry: {{scoreData.carryPercent | number:'1.0-2'}}% of the maximum carry marks;
+      final exam: {{scoreData.finalExamPercent | number:'1.0-2'}}% of the maximum final exam marks.</p>
+    <div *ngIf="failureReasons.length" class="alert alert-danger" role="status">
+      <strong>Reasons for failing</strong>
+      <ul class="mb-0">
+        <li *ngFor="let reason of failureReasons">{{reason}}</li>
+      </ul>
+    </div>
+    <section class="mt-4" aria-labelledby="exam-targets-heading">
+      <h2 id="exam-targets-heading">Final exam score suggestions</h2>
+      <p>Based on your current carry marks. Passing requires at least 50% overall; an A starts at 80% overall.
+        Both targets require passing the carry component and scoring at least 20% in the final exam.
+        Suggested scores are rounded up to whole marks.</p>
+      <ul class="list-group">
+        <li *ngFor="let suggestion of examSuggestions" class="list-group-item">
+          <strong>{{suggestion.target}}:</strong> {{suggestion.message}}
+        </li>
+      </ul>
+    </section>
 </div>
 <!-- 
 <div class="container mt-5">

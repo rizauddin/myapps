@@ -20,10 +20,11 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('myapps2');
   });
 
-  it('should render title', () => {
+  it('should render the copyright range ending in the current year', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, myapps2');
+    expect(compiled.querySelector('footer')?.textContent)
+      .toContain(`Copyright 2024-${new Date().getFullYear()}`);
   });
 });

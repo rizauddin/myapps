@@ -1,5 +1,10 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# AI
+AGENTS.md
+UI_REDESIGN_PRD.md
+CURRENT_APP_SPEC.md
+
 # Compiled output
 /dist
 /tmp

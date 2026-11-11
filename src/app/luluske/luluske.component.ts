@@ -16,26 +16,64 @@ export class LuluskeComponent {
   public constructor(private titleService: Title) { }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Lulus ke?');
+    this.titleService.setTitle('luluske?');
     this.updateGrade();
   }
 
   tableData = {
-    weightage: [30, 10, 10, 50],
-    totalMarks: [40, 30, 30, 100],
-    assignment: ['Test', 'Lab', 'Project', 'Final Exam'],
-    score: [15, 10, 20, 70],
+    weightage: [20, 20, 10, 50],
+    totalMarks: [100, 100, 100, 100],
+    assignment: ['Quiz', 'Test', 'Project', 'Final Exam'],
+    score: [80, 75, 70, 60],
   };
 
   scoreData = {
     carryMarks: 60,
     finalExam: 50,
+    carryPercent: 0,
+    finalExamPercent: 0,
     finalMarks: 20,
     grade: 'C',
     result: 'Pass',
   };
 
   totalWeight = 100;
+  readonly minimumPercent = { carry: 50, finalExam: 20, overall: 50 };
+  failureReasons: string[] = [];
+
+  get carryWeight(): number {
+    return this.tableData.weightage.slice(0, 3).reduce((total, weight) => total + weight, 0);
+  }
+
+  get examSuggestions(): { target: string; score: number | null; message: string }[] {
+    const weights = this.tableData.weightage;
+    const examTotal = this.tableData.totalMarks[3];
+    const validInputs = weights.every(weight => Number.isFinite(weight) && weight >= 0)
+      && Math.abs(weights.reduce((sum, weight) => sum + weight, 0) - 100) < 1e-9
+      && this.carryWeight > 0 && weights[3] > 0
+      && this.tableData.totalMarks.every(total => Number.isFinite(total) && total > 0)
+      && this.tableData.score.slice(0, 3).every((score, index) =>
+        Number.isFinite(score) && score >= 0 && score <= this.tableData.totalMarks[index]);
+
+    return [{ target: 'Pass the course', minimum: this.minimumPercent.overall },
+      { target: 'Get an A or higher', minimum: 80 }].map(({ target, minimum }) => {
+      if (!validInputs) {
+        return { target, score: null, message: 'Enter valid carry scores, positive total marks, and weights totaling 100% with both components weighted.' };
+      }
+      if (this.scoreData.carryPercent < this.minimumPercent.carry) {
+        return { target, score: null, message: 'Not achievable with the current carry marks. You must first pass the carry component (at least 50%).' };
+      }
+
+      const requiredPercent = Math.max(this.minimumPercent.finalExam,
+        (minimum - this.scoreData.carryMarks) / weights[3] * 100);
+      // Recommend whole marks, rounding up so the target is met.
+      const score = Math.ceil(requiredPercent / 100 * examTotal);
+      if (score > examTotal) {
+        return { target, score: null, message: 'Not achievable with the current carry marks, even with full marks in the final exam.' };
+      }
+      return { target, score, message: `Score at least ${score} out of ${examTotal} in the final exam.` };
+    });
+  }
 
   editCell(column: string, rowIndex: number): void {
     // Implement your edit logic here
@@ -81,7 +119,22 @@ export class LuluskeComponent {
 
     this.scoreData.finalMarks = this.scoreData.carryMarks + this.scoreData.finalExam;
 
-    this.scoreData.result = this.scoreData.finalMarks >= 50 && 'Pass' || 'Fail';
+    this.scoreData.carryPercent = this.carryWeight > 0
+      ? this.scoreData.carryMarks / this.carryWeight * 100 : 0;
+    this.scoreData.finalExamPercent = this.tableData.weightage[3] > 0
+      ? this.scoreData.finalExam / this.tableData.weightage[3] * 100 : 0;
+
+    this.failureReasons = [];
+    if (!(this.scoreData.carryPercent >= this.minimumPercent.carry)) {
+      this.failureReasons.push(`Carry marks are below ${this.minimumPercent.carry}% of the maximum carry marks.`);
+    }
+    if (!(this.scoreData.finalExamPercent >= this.minimumPercent.finalExam)) {
+      this.failureReasons.push(`The final exam score is below ${this.minimumPercent.finalExam}% of the maximum final exam marks.`);
+    }
+    if (!(this.scoreData.finalMarks >= this.minimumPercent.overall)) {
+      this.failureReasons.push(`The overall score is below ${this.minimumPercent.overall}%.`);
+    }
+    this.scoreData.result = this.failureReasons.length === 0 ? 'Pass' : 'Fail';
 
     if (this.scoreData.finalMarks <= 29) this.scoreData.grade = 'F'
     else if (this.scoreData.finalMarks <= 39) this.scoreData.grade = 'E'
